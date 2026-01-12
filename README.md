@@ -18,23 +18,42 @@
 
 ## Installation
 
-1. Clone the repository:
+Pato can be installed either from PyPI or directly from source.
 
+---
+
+### Option 1: Install from PyPI (recommended)
+
+If you just want to use Pato:
+
+```bash
+pip install pato
+```
+
+Verify installation:
+```bash
+pato --help
+```
+
+This installs the `pato` command and all required dependencies.
+
+### Option 2: Install from source using `uv`
 ```bash
 git clone <repo-url>
 cd pato
 ```
-
-2. Install dependencies (requires Python ≥3.9):
-
+Install dependencies and the `pato` CLI using uv:
 ```bash
-pip install duckdb
+uv sync
 ```
+This will:
+- Create an isolated environment
+- Install all dependencies
+- Register the `pato` command
 
-3. Make sure the socket directory exists:
-
+Verify:
 ```bash
-mkdir -p ~/.pato
+pato --help
 ```
 
 ---
@@ -46,7 +65,7 @@ mkdir -p ~/.pato
 Start the Pato server in a terminal:
 
 ```bash
-python main.py run
+pato run
 ```
 
 This will start a server listening on the default Unix socket:
@@ -64,14 +83,14 @@ The server **must be running** before executing any other commands from another 
 In another terminal, you can send commands to the running server using:
 
 ```bash
-python main.py <command> [arguments]
+pato <command> [arguments]
 ```
 
 For example:
 
 ```bash
-python main.py load example.csv
-python main.py head example --n 5
+pato load example.csv
+pato head example --n 5
 ```
 
 > The `--socket` argument can be used to specify a custom socket path if desired.
@@ -113,7 +132,7 @@ python main.py head example --n 5
 
 | Command                    | Description                                     |
 | -------------------------- | ----------------------------------------------- |
-| `exec sql="..."`           | Execute arbitrary SQL query on in-memory tables |
+| `exec --sql="..."`           | Execute arbitrary SQL query on in-memory tables. If sql is left off then you will will be prompted with multi line support. Enter a blank line to execute. |
 | `drop table`               | Drop a table from memory                        |
 | `rename old_name new_name` | Rename a table in memory                        |
 
@@ -134,7 +153,7 @@ python main.py head example --n 5
 * Only **Unix sockets** are currently supported (Linux, macOS, WSL). Windows native is not supported.
 * File paths passed to `load` and `export` can be relative or absolute. Relative paths are resolved relative to the client working directory.
 * Export directories will be automatically created if they do not exist.
-* Aggregation commands only work on numeric columns; attempting to aggregate a string column will produce an error.
+
 
 ---
 
@@ -143,42 +162,48 @@ python main.py head example --n 5
 1. Start server:
 
 ```bash
-python main.py run
+pato run
 ```
 
 2. Load a CSV file:
 
 ```bash
-python main.py load data/sales.csv
+pato load data/sales.csv
 ```
 
 3. Inspect data:
 
 ```bash
-python main.py list
-python main.py describe sales
-python main.py head sales --n 5
-python main.py count sales
+pato list
+pato describe sales
+pato head sales --n 5
+pato count sales
 ```
 
 4. Perform aggregations:
 
 ```bash
-python main.py sum revenue sales
-python main.py avg price sales
+pato sum revenue sales
+pato avg price sales
 ```
 
 5. Export data:
 
 ```bash
-python main.py export sales out/sales.parquet
+pato export sales out/sales.parquet
 ```
 
 6. Stop server:
 
 ```bash
-python main.py stop
+pato stop
 ```
+
+---
+
+## Pato Shell
+
+The `pato shell` command allows you to run enter a SQL shell to run queries without `pato exec`. Any `pato <command>` will still work to conveniently load, export, summarize, etc.
 
 ---
 
@@ -187,5 +212,6 @@ python main.py stop
 MIT License
 
 ---
-
+## Future Features
 * Integration with visualization tools for quick plotting.
+* Loading and exporting the **Duck DB** instance to a file for persistance
