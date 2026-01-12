@@ -296,10 +296,10 @@ class Pato:
         """Export table to a file"""
 
         EXPORT_FORMATS = {
-            ".csv": "CSV",
-            ".parquet": "PARQUET",
-            ".pq": "PARQUET",
-            ".json": "JSON",
+            ".csv": ("CSV", {"HEADER": "TRUE"}),
+            ".parquet": ("PARQUET", {}),
+            ".pq": ("PARQUET", {}),
+            ".json": ("JSON", {}),
         }
 
         tables = {
@@ -314,14 +314,17 @@ class Pato:
         if ext not in EXPORT_FORMATS:
             return f"Unsupported export format: {ext}"
 
-        fmt = EXPORT_FORMATS[ext]
+        fmt, options = EXPORT_FORMATS[ext]
 
         os.makedirs(os.path.dirname(file) or ".", exist_ok=True)
+
+        option_sql = ", ".join(f"{k} {v}" for k, v in options.items())
+        option_sql = f", {option_sql}" if option_sql else ""
 
         sql = f"""
             COPY {table}
             TO ?
-            (FORMAT {fmt}, HEADER TRUE)
+            (FORMAT {fmt}{option_sql})
         """
 
         self.db.execute(sql, [file])
