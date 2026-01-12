@@ -1,9 +1,13 @@
 [project]
 name = "pato"
 version = "0.1.0"
-description = "Add your description here"
+description = "In-memory DuckDB SQL server for querying and transforming data files"
 readme = "README.md"
 requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+  { name = "Kevin Smeeks", email = "ksmeeks0001@gmail.com" }
+]
 dependencies = [
     "duckdb>=1.4.3",
     "numpy>=2.4.0",
@@ -12,3 +16,7 @@ dependencies = [
 
 [project.scripts]
 pato = "pato.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

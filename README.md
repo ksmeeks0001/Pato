@@ -27,7 +27,7 @@ Pato can be installed either from PyPI or directly from source.
 If you just want to use Pato:
 
 ```bash
-pip install pato
+pip install pato-cli
 ```
 
 Verify installation:
