@@ -1,0 +1,14 @@
+[project]
+name = "pato"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.4.3",
+    "numpy>=2.4.0",
+    "pandas>=2.3.3",
+]
+
+[project.scripts]
+pato = "pato.cli:main"
