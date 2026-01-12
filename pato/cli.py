@@ -10,7 +10,7 @@ import shlex
 
 import duckdb
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 SOCKET_PATH = os.path.expanduser("~/.pato/pato.sock")
 os.makedirs(os.path.dirname(SOCKET_PATH), exist_ok=True)
